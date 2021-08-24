@@ -1,4 +1,4 @@
-var BasicWorker = require("role.basic_worker");
+var BasicWorker = require("basic_worker");
 
 const FILL_STRUCTURE_LIST = [STRUCTURE_EXTENSION, STRUCTURE_SPAWN, STRUCTURE_TOWER];
 

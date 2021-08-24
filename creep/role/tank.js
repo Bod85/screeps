@@ -1,4 +1,4 @@
-var BasicDefender = require("role.basic_defender");
+var BasicDefender = require("basic_defender");
 
 module.exports = class RoleTank extends BasicDefender {
     /** @param {Creep} creep **/
