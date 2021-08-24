@@ -1,7 +1,7 @@
 
-var RoleHarvester = require('role.harvester');
-var RoleUpgrader = require('role.upgrader');
-var RoleBuilder = require('role.builder');
+var RoleHarvester = require('creep_role_harvester');
+var RoleUpgrader = require('creep_role_upgrader');
+var RoleBuilder = require('creep_role_builder');
 
 // {"move":50,"work":100,"attack":80,"carry":50,"heal":250,"ranged_attack":150,"tough":10,"claim":600}
     // ATTACK_POWER: 30,
