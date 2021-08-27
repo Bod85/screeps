@@ -1,7 +1,7 @@
-var AI = require('AI');
-var roomTask = require('task.room');
-var memoryTask = require('task.memory');
-var Core = require('core');
+var AI = require('ai_process');
+var roomTask = require('processor_room');
+var memoryTask = require('processor_memory');
+var Core = require('core_functions');
 
 //TODO make module(library) for hostile target desc
 

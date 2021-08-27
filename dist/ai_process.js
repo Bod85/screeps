@@ -1,7 +1,7 @@
-var AISpawn = require('AI.spawn');
-var AIBuild = require('AI.build');
-var Core = require('core');
-var AIControlUnit = require('AI.control_unit');
+var AISpawn = require('ai_spawn');
+var AIBuild = require('ai_build');
+var Core = require('core_functions');
+var AIControlUnit = require('ai_control_unit');
 
 var AI = {
     process: function() {

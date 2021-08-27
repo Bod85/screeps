@@ -1,4 +1,4 @@
-var Core = require('core');
+var Core = require('core_functions');
 
 module.exports = class AISpawn {
     // Role => Level => Body / Max

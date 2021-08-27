@@ -1,8 +1,11 @@
-var Core = require('core');
+var Core = require('core_functions');
+const Const = require('core_const');
 
 const HARVESTER_WORK_PERIOD = 25;
 const HARVESTER_COUNT_CORRECTION = 2;
 const HOSTILE_FORBIDDEN_RADIUS = 5;
+const GATHER_POINT_SUFFIX = "_GP";
+const GATHER_POINT_COLOR = COLOR_GREEN;
 
 module.exports = {
     // Собираем базовую информацию о наших комнатах
@@ -53,7 +56,7 @@ module.exports = {
                             }
                         }
                     })
-                    room.memory.hostileTargets[hostileCreep.id] = {"stats": stats};
+                    room.memory.hostileTargets[hostileCreep.id] = {"stats": stats, "action": Const.ACTION_AVOID};
                 }
                 actualTargetList.push(hostileCreep.id);
             });
@@ -73,7 +76,7 @@ module.exports = {
         let sources = room.find(FIND_SOURCES);
         let spawn = room.find(FIND_MY_SPAWNS)[0];
         let harvestersCount = 0;
-
+        
         // Go through all room resources
         sources.forEach(source => {
             let accessableSpots = [];
@@ -133,12 +136,6 @@ module.exports = {
                   },
                 });
                 
-                /*if(source.id == 'ba880b4743034ec346203664' || true) {
-                    console.log(pathRet.cost);
-                    pathRet.path.forEach(spot => {
-                        room.visual.circle(spot.x,spot.y);
-                    })
-                }*/
                 pathCost = pathRet.cost;
                 sourceHarvestersLimit = Math.floor(pathCost * 2.0 * accessableSpots.length / HARVESTER_WORK_PERIOD / HARVESTER_COUNT_CORRECTION) + accessableSpots.length;
             }
@@ -151,6 +148,11 @@ module.exports = {
         room.memory.sources = roomSources;
         room.memory.creepLimit = {"upgrader": 2, "builder": 2, "harvester": harvestersCount - 4};
         room.memory.initialized = true;
+        if(_.filter(Game.flags, flag => flag.room.name == room.name && flag.name == flag.room.name.concat(GATHER_POINT_SUFFIX)).length == 0) {
+            let flag = room.createFlag(10, 25, room.name.concat(GATHER_POINT_SUFFIX), GATHER_POINT_COLOR);
+            if(flag != null)
+                room.memory.gatherPoint = flag;
+        }
     },
     
     /** @param {Room} room **/

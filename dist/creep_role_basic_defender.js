@@ -1,14 +1,10 @@
-const ACTION_AVOID = "avoid";
-const ACTION_ATTACK = "attack";
-const RALLY_POINT_NAME = "Rally Point";
-
 module.exports = class BasicDefender {   
     /** @param {Creep} creep **/
     static getDefenderTarget(creep) {
         let defenderTarget = null;
         if(creep.memory.targetID != null) {
             defenderTarget = Game.getObjectById(creep.memory.targetID);
-            if(defenderTarget.room.id != creep.room.id) {
+            if(defenderTarget != null && defenderTarget.room.id != creep.room.id) {
                 defenderTarget = null;
                 creep.memory.targetID = null;
             }
@@ -45,16 +41,16 @@ module.exports = class BasicDefender {
     static getRallyPoint(creep) {
         let rallyPoint = null;
         
-        if(creep.memory.rallyPointID != null) {
-            rallyPoint = Game.getObjectById(creep.memory.targetID);
+        if(creep.memory.rallyPoint != null) {
+            rallyPoint = Game.flags[rallyPoint];
         }
         
-        if(rallyPoint == null) {
+        if(rallyPoint == null && creep.room.memory.gatherPoint != null) {
             creep.memory.rallyPointID = null;            
-            let flags = creep.room.find(FIND_FLAGS, {filter: (flag) => flag.name == RALLY_POINT_NAME});
-            if(flags.length > 0) {
-                rallyPoint = flags[0];
-                creep.memory.rallyPointID = rallyPoint.id;
+            let flag = Game.flags[creep.room.memory.gatherPoint];
+            if(flag != null) {
+                rallyPoint = flag;
+                creep.memory.rallyPointID = creep.room.memory.gatherPoint; 
             }
         }
         

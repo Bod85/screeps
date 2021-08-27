@@ -2,6 +2,9 @@
 var RoleHarvester = require('creep_role_harvester');
 var RoleUpgrader = require('creep_role_upgrader');
 var RoleBuilder = require('creep_role_builder');
+const RoleTank = require('creep_role_tank');
+const RoleMelee = require('creep_role_melee');
+const RoleRanged = require('creep_role_ranged');
 
 // {"move":50,"work":100,"attack":80,"carry":50,"heal":250,"ranged_attack":150,"tough":10,"claim":600}
     // ATTACK_POWER: 30,
@@ -12,11 +15,32 @@ var RoleBuilder = require('creep_role_builder');
 
 module.exports = class AIControlUnit {
     static process() {
-        this.controlCreeps();
+        this.controlWorkers();
         this.controlTowers();
+        this.controlDefenders();
     }
     
-    static controlCreeps() { 
+    static controlDefenders() {
+        for(var name in Game.creeps) {
+            var creep = Game.creeps[name];
+            switch(creep.memory.role) {
+                case 'tank':
+                    RoleTank.run(creep);
+                    break;
+                case 'melee':
+                    RoleMelee.run(creep);                    
+                    break;
+                case 'ranged':
+                    RoleRanged.run(creep);                    
+                    break;
+                case 'heal':
+                    //RoleMelee.run(creep);                    
+                    break;
+            }
+        }        
+    }
+
+    static controlWorkers() { 
         for(var name in Game.creeps) {
             var creep = Game.creeps[name];
             if(creep.memory.role == 'harvester') {

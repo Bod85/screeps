@@ -1,7 +1,7 @@
 var BasicDefender = require("creep_role_basic_defender");
 const Const = require("core_const");
 
-module.exports = class RoleTank extends BasicDefender {
+module.exports = class RoleRanged extends BasicDefender {
     /** @param {Creep} creep **/
     static run(creep) {
 
