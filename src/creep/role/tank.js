@@ -6,7 +6,7 @@ module.exports = class RoleTank extends BasicDefender {
     static run(creep) {
 
         let targetCreep = BasicDefender.getDefenderTarget(creep);
-        if(targetCreep != null && null == Const.ACTION_ATTACK) {
+        if(targetCreep != null && creep.room.memory.hostileTargets[targetCreep.id] == Const.ACTION_ATTACK) {
             // At that moment, tank will take only ranged damage
             if(creep.pos.getRangeTo(targetCreep) > 3)
                 creep.moveTo(targetCreep);

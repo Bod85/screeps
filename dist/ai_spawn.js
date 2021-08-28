@@ -1,4 +1,5 @@
 var Core = require('core_functions');
+const Const = require('core_const');
 
 module.exports = class AISpawn {
     // Role => Level => Body / Max
@@ -46,7 +47,9 @@ module.exports = class AISpawn {
     static process() {
         for(var spawnName in Game.spawns) {
             if(!Game.spawns[spawnName].spawning) {
-                let deployDefence = Game.spawns[spawnName].room.memory.hostileTargets && Object.keys(Game.spawns[spawnName].room.memory.hostileTargets).length > 0;
+                let roomMemory = Game.spawns[spawnName].room.memory;
+                let deployDefence = roomMemory.hostileTargets && Object.keys(roomMemory.hostileTargets).length > 0 
+                                        && roomMemory.productionLevel >= Const.MIN_PRODUCTION_DEFENCE_LEVEL;
                 // Spawn workers (harverster, builder, updater)
                 let spawning = this.spawnWorkers(Game.spawns[spawnName], !deployDefence);
                 // Spawn defenger for detected targets
@@ -63,16 +66,36 @@ module.exports = class AISpawn {
         
         this.calcTargetsCounter(spawn);
         
-        for(let role in this.defender_roles) {
-            defenders[role] = _.filter(Game.creeps, (creep) => creep.room.id == spawn.room.id && creep.memory.role == role).length;
+        let defendersNeed = {};
+        // Calculating how much creeps do we need
+        for(let hostileID in spawn.room.memory.hostileTargets) {
+            let hostileDesc = spawn.room.memory.hostileTargets[hostileID];
+            if("defenders" in hostileDesc) {
+                for(let role in hostileDesc["defenders"]) {
+                    if(!(role in defendersNeed))
+                        defendersNeed[role] = 0;
+                    defendersNeed[role] += hostileDesc["defenders"][role];
+                }
+            }
         }
 
-        let minRoleCount = Math.min(...Object.values(defenders));
-        let spawnRole = Object.keys(defenders).filter(key => defenders[key] === minRoleCount)[0];
-        //console.log(this.bodyCost(this.defender_roles[spawnRole][roomLevel]["body"]));
-        if(this.bodyCost(this.defender_roles[spawnRole][roomLevel]["body"]) <= spawn.room.energyAvailable) {
-                let newName = spawnRole[0].toUpperCase() + spawnRole.slice(1) + Game.time;
-                this.spawnCreep(spawn, newName, spawnRole, this.defender_roles[spawnRole][roomLevel]["body"]);
+        // Calculating defenders of each role in the room and remove all which numbers are exceeding what we need
+        for(let role in this.defender_roles) {
+            if(role in defendersNeed) {
+                let creepCnt = _.filter(Game.creeps, (creep) => creep.room.id == spawn.room.id && creep.memory.role == role).length;
+                if(creepCnt < defendersNeed[role])
+                    defenders[role] = creepCnt;
+            }
+        }
+        
+        if(Object.keys(defenders).length > 0) {
+            let minRoleCount = Math.min(...Object.values(defenders));
+            let spawnRole = Object.keys(defenders).filter(key => defenders[key] === minRoleCount)[0];
+            //console.log(this.bodyCost(this.defender_roles[spawnRole][roomLevel]["body"]));
+            if(this.bodyCost(this.defender_roles[spawnRole][roomLevel]["body"]) <= spawn.room.energyAvailable) {
+                    let newName = spawnRole[0].toUpperCase() + spawnRole.slice(1) + Game.time;
+                    this.spawnCreep(spawn, newName, spawnRole, this.defender_roles[spawnRole][roomLevel]["body"]);
+            }
         }
     }
   

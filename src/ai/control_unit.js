@@ -5,6 +5,7 @@ var RoleBuilder = require('creep_role_builder');
 const RoleTank = require('creep_role_tank');
 const RoleMelee = require('creep_role_melee');
 const RoleRanged = require('creep_role_ranged');
+const RoleHealer = require('creep_role_healer');
 
 // {"move":50,"work":100,"attack":80,"carry":50,"heal":250,"ranged_attack":150,"tough":10,"claim":600}
     // ATTACK_POWER: 30,
@@ -15,8 +16,8 @@ const RoleRanged = require('creep_role_ranged');
 
 module.exports = class AIControlUnit {
     static process() {
-        this.controlWorkers();
         this.controlTowers();
+        this.controlWorkers();
         this.controlDefenders();
     }
     
@@ -33,8 +34,8 @@ module.exports = class AIControlUnit {
                 case 'ranged':
                     RoleRanged.run(creep);                    
                     break;
-                case 'heal':
-                    //RoleMelee.run(creep);                    
+                case 'healer':
+                    RoleHealer.run(creep);                    
                     break;
             }
         }        

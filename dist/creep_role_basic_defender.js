@@ -11,7 +11,6 @@ module.exports = class BasicDefender {
         } 
         
         if(defenderTarget == null) {
-            //First of all we should 
             var keys = Object.keys(creep.room.memory.hostileTargets);
             keys.sort(function(a, b) {
                 return creep.room.memory.hostileTargets[a].stats.heal - creep.room.memory.hostileTargets[b].stats.heal;
@@ -28,7 +27,6 @@ module.exports = class BasicDefender {
                     if(existCreeps.length < roleCount) {
                         creep.memory.targetID = targetID;
                         defenderTarget = Game.getObjectById(targetID);
-                        return;
                     }
                 }
             });
