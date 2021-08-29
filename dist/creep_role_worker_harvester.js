@@ -1,4 +1,4 @@
-var BasicWorker = require("creep_role_basic_worker");
+var BasicWorker = require("creep_role_worker_basic_worker");
 
 const FILL_STRUCTURE_LIST = [STRUCTURE_EXTENSION, STRUCTURE_SPAWN, STRUCTURE_TOWER];
 

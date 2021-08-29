@@ -1,6 +1,13 @@
 var Core = require('core_functions');
 const Const = require('core_const');
 
+// {"move":50,"work":100,"attack":80,"carry":50,"heal":250,"ranged_attack":150,"tough":10,"claim":600}
+    // ATTACK_POWER: 30,
+    // UPGRADE_CONTROLLER_POWER: 1,
+    // RANGED_ATTACK_POWER: 10,
+    // HEAL_POWER: 12,
+    // RANGED_HEAL_POWER: 4,
+
 module.exports = class AISpawn {
     // Role => Level => Body / Max
     static worker_roles = {"harvester": { 
@@ -70,11 +77,11 @@ module.exports = class AISpawn {
         // Calculating how much creeps do we need
         for(let hostileID in spawn.room.memory.hostileTargets) {
             let hostileDesc = spawn.room.memory.hostileTargets[hostileID];
-            if("defenders" in hostileDesc) {
-                for(let role in hostileDesc["defenders"]) {
+            if(Const.HOSTILE_DEFENDERS_KEY in hostileDesc) {
+                for(let role in hostileDesc[Const.HOSTILE_DEFENDERS_KEY]) {
                     if(!(role in defendersNeed))
                         defendersNeed[role] = 0;
-                    defendersNeed[role] += hostileDesc["defenders"][role];
+                    defendersNeed[role] += hostileDesc[Const.HOSTILE_DEFENDERS_KEY][role];
                 }
             }
         }
@@ -173,7 +180,7 @@ module.exports = class AISpawn {
         for(let hostileID in spawn.room.memory.hostileTargets) {
             let hostileDesc = spawn.room.memory.hostileTargets[hostileID];
             // If we didn't assign defenders against the target yet
-            if (!('defenders' in hostileDesc)) {
+            if (!(Const.HOSTILE_DEFENDERS_KEY in hostileDesc)) {
                 // Define target weak spot
                 let attackerRole, targetAttack, attackerDPT, attackerHits;
                 if(hostileDesc.stats[RANGED_ATTACK] < hostileDesc.stats[ATTACK]) {
@@ -194,7 +201,7 @@ module.exports = class AISpawn {
                 // If hostile is too strong - then we are going to handle him
                 defendersDesc[attackerRole] = ((attackerCount > 8) ? 8 : attackerCount);
                     
-                spawn.room.memory.hostileTargets[hostileID]["defenders"] = defendersDesc;
+                spawn.room.memory.hostileTargets[hostileID][Const.HOSTILE_DEFENDERS_KEY] = defendersDesc;
             }
         }
     };

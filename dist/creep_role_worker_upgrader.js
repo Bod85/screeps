@@ -1,4 +1,4 @@
-var BasicWorker = require("creep_role_basic_worker");
+var BasicWorker = require("creep_role_worker_basic_worker");
 
 module.exports = class RoleUpgrader extends BasicWorker {
     /** @param {Creep} creep **/

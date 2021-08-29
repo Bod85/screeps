@@ -4,7 +4,7 @@ const Const = require('core_const');
 const HARVESTER_WORK_PERIOD = 25;
 const HARVESTER_COUNT_CORRECTION = 2;
 const HOSTILE_FORBIDDEN_RADIUS = 5;
-const GATHER_POINT_SUFFIX = "_GP";
+const GATHER_POINT_SUFFIX = "_RP";
 const GATHER_POINT_COLOR = COLOR_GREEN;
 
 module.exports = {

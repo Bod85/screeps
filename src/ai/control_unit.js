@@ -1,18 +1,11 @@
 
-var RoleHarvester = require('creep_role_harvester');
-var RoleUpgrader = require('creep_role_upgrader');
-var RoleBuilder = require('creep_role_builder');
-const RoleTank = require('creep_role_tank');
-const RoleMelee = require('creep_role_melee');
-const RoleRanged = require('creep_role_ranged');
-const RoleHealer = require('creep_role_healer');
-
-// {"move":50,"work":100,"attack":80,"carry":50,"heal":250,"ranged_attack":150,"tough":10,"claim":600}
-    // ATTACK_POWER: 30,
-    // UPGRADE_CONTROLLER_POWER: 1,
-    // RANGED_ATTACK_POWER: 10,
-    // HEAL_POWER: 12,
-    // RANGED_HEAL_POWER: 4,
+var RoleHarvester = require('creep_role_worker_harvester');
+var RoleUpgrader = require('creep_role_worker_upgrader');
+var RoleBuilder = require('creep_role_worker_builder');
+const RoleTank = require('creep_role_defender_tank');
+const RoleMelee = require('creep_role_defender_melee');
+const RoleRanged = require('creep_role_defender_ranged');
+const RoleHealer = require('creep_role_defender_healer');
 
 module.exports = class AIControlUnit {
     static process() {

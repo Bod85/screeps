@@ -1,4 +1,4 @@
-var BasicWorker = require("creep_role_basic_worker");
+var BasicWorker = require("creep_role_worker_basic_worker");
 
 const STEAL_FROM_SPAWN = true;
 
