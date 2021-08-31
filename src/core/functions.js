@@ -9,5 +9,9 @@ module.exports = {
         if(Game.time % period == 0) {
             fun();
         }
+    },
+
+    showLog: function(text) {
+        console.log(text);
     }
 };

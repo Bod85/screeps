@@ -7,10 +7,17 @@ module.exports = class RoleRanged extends BasicDefender {
 
         let targetCreep = BasicDefender.getDefenderTarget(creep);
         if(targetCreep != null && creep.room.memory.hostileTargets[targetCreep.id].action == Const.ACTION_ATTACK) {
-            if(creep.pos.getRangeTo(targetCreep) > 3)
-                creep.moveTo(targetCreep);
-            else
-                creep.rangedAttack(targetCreep);
+            let tank = BasicDefender.getTargetDefenderTank(creep.room, targetCreep.id);
+            // If there is not attacked tank go to him. Also, if there is attack on the creep - shoot back
+            if(tank != null && tank.hits == tank.hitsMax && creep.hits == creep.hitsMax) {
+                if(creep.pos.getRangeTo(tank) > 2)
+                    creep.moveTo(tank);
+            } else {
+                if(creep.pos.getRangeTo(targetCreep) > 3)
+                    creep.moveTo(targetCreep);
+                else
+                    creep.rangedAttack(targetCreep);
+            }
         } else {
             let rallyPoint = BasicDefender.getRallyPoint(creep);
             if(rallyPoint != null && creep.pos.getRangeTo(rallyPoint) > 2) {

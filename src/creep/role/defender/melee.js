@@ -7,11 +7,16 @@ module.exports = class RoleMelee extends BasicDefender {
 
         let targetCreep = BasicDefender.getDefenderTarget(creep);
         if(targetCreep != null && creep.room.memory.hostileTargets[targetCreep.id].action == Const.ACTION_ATTACK) {
-            // At that moment, tank will take only ranged damage
-            if(creep.pos.getRangeTo(targetCreep) > 1)
-                creep.moveTo(targetCreep);
-            else
-                creep.attack(targetCreep);
+            // If there is not attacked tank go to him. Also, if there is attack on the creep - shoot back
+            if(tank != null && tank.hits == tank.hitsMax && creep.hits == creep.hitsMax) {
+                if(creep.pos.getRangeTo(tank) > 2)
+                    creep.moveTo(tank);
+            } else {
+                if(creep.pos.isNearTo(targetCreep))
+                    creep.attack(targetCreep);
+                else
+                    creep.moveTo(targetCreep);                   
+            }
         } else {
             let rallyPoint = BasicDefender.getRallyPoint(creep);
             if(rallyPoint != null && creep.pos.getRangeTo(rallyPoint) > 2) {

@@ -199,7 +199,7 @@ module.exports = class AISpawn {
                 let healerCount = (attackerCount > 3) ? 1 : 0;
                 let defendersDesc = { "tank": tankCount, "healer": healerCount};
                 // If hostile is too strong - then we are going to handle him
-                defendersDesc[attackerRole] = ((attackerCount > 8) ? 8 : attackerCount);
+                defendersDesc[attackerRole] = ((attackerCount > 5) ? 5 : attackerCount);
                     
                 spawn.room.memory.hostileTargets[hostileID][Const.HOSTILE_DEFENDERS_KEY] = defendersDesc;
             }
