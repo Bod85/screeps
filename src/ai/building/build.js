@@ -62,7 +62,7 @@ module.exports = class AIBuild {
             for(let construction in template.BLUEPRINT) {
                 template.BLUEPRINT[construction].forEach(
                     structXY => {
-                        ret = room.createConstructionSite( centerX + structXY[0], centerY + structXY[1], construction);
+                        ret = room.createConstructionSite( centerX + Number(structXY[0]), centerY + Number(structXY[1]), construction);
                         if(!([OK, ERR_RCL_NOT_ENOUGH].includes(ret))) {
                             Core.showLog(room.name + '. Build error: ' + ret + '. Structure: ' + construction + '. Position: ' + (centerX + Number(structXY[0])) + ', ' + (centerY + structXY[1]));
                             return ret;
@@ -76,7 +76,7 @@ module.exports = class AIBuild {
     }
 
     static defineBuildTemplate(room) {
-        return {level: 1, template: 'tutorial', center: [22, 25]};
+        return {level: 0, template: 'tutorial', center: [22, 25]};
     }
 
     /** Build roads to all sources

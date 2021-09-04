@@ -37,6 +37,7 @@ module.exports = {
             _.forEach(hostileList, function(hostileCreep) {
                 if(Object.keys(room.memory.hostileTargets).indexOf(hostileCreep.id) == -1) {
                     let stats = {};
+                    let aggressive = false;
                     stats[RANGED_ATTACK] = 0;
                     stats[ATTACK] = 0;
                     stats[HEAL] = 0;
@@ -46,17 +47,21 @@ module.exports = {
                             switch(body.type) {
                                 case RANGED_ATTACK:
                                     stats[RANGED_ATTACK] += RANGED_ATTACK_POWER;
+                                    aggressive = true;
                                     break;
                                 case ATTACK:
                                     stats[ATTACK] += ATTACK_POWER;
+                                    aggressive = true;
                                     break;
                                 case HEAL:
                                     stats[HEAL] += HEAL_POWER;
+                                    aggressive = true;
                                     break;
                             }
                         }
                     })
-                    room.memory.hostileTargets[hostileCreep.id] = {"stats": stats, "action": Const.ACTION_AVOID};
+                    aggressive = aggressive && hostileCreep.owner.username !== 'Source Keeper';
+                    room.memory.hostileTargets[hostileCreep.id] = {"stats": stats, "action": Const.ACTION_AVOID, "aggressive" : aggressive};
                 }
                 actualTargetList.push(hostileCreep.id);
             });

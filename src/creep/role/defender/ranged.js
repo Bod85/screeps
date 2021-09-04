@@ -15,7 +15,10 @@ module.exports = class RoleRanged extends BasicDefender {
             } else {
                 if(creep.pos.getRangeTo(targetCreep) > 3)
                     creep.moveTo(targetCreep);
-                else
+                else if(creep.pos.isNearTo(targetCreep)) {
+                    let path = PathFinder.search(creep.pos, {pos:targetCreep. pos, range:3},{flee:true}).path;
+                    creep.moveByPath(path);
+                } else
                     creep.rangedAttack(targetCreep);
             }
         } else {

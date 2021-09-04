@@ -55,8 +55,7 @@ module.exports = class AISpawn {
         for(var spawnName in Game.spawns) {
             if(!Game.spawns[spawnName].spawning) {
                 let roomMemory = Game.spawns[spawnName].room.memory;
-                let deployDefence = roomMemory.hostileTargets && Object.keys(roomMemory.hostileTargets).length > 0 
-                                        && roomMemory.productionLevel >= Const.MIN_PRODUCTION_DEFENCE_LEVEL;
+                let deployDefence = roomMemory.hostileTargets && _.filter(roomMemory.hostileTargets, (target) => target.aggressive || roomMemory.productionLevel >= Const.MIN_NON_AGGRESSIVE_ATTACK_LEVEL).length > 0 
                 // Spawn workers (harverster, builder, updater)
                 let spawning = this.spawnWorkers(Game.spawns[spawnName], !deployDefence);
                 // Spawn defenger for detected targets
